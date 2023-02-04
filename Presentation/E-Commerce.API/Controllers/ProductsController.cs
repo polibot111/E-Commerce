@@ -1,5 +1,9 @@
-﻿using E_Commerce.Application.Repositories.ElementsRepositories;
+﻿using E_Commerce.Application.Features.Queries.GetAllProduct;
+using E_Commerce.Application.Repositories.ElementsRepositories;
+using E_Commerce.Application.RequestParameters;
 using E_Commerce.Domain.Entities;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,31 +13,25 @@ namespace E_Commerce.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        readonly private IProductWriteRepository _productWriteRepository;
-        readonly private IProductReadRepository _productReadRepository;
+        readonly ILogger<ProductsController> _logger;
+        readonly IMediator _mediator;
 
-        readonly private IOrderWriteRepository _orderWriteRepository;
-        readonly private IOrderReadRepository _orderReadRepository;
-        readonly private ICustomerWriteRepository _customerWriteRepository;
-        public ProductsController(IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository, IOrderWriteRepository orderWriteRepository,
-            ICustomerWriteRepository customerWriteRepository, IOrderReadRepository orderReadRepository)
+        public ProductsController(IMediator mediator, ILogger<ProductsController> logger)
         {
-            _productReadRepository = productReadRepository;
-            _productWriteRepository = productWriteRepository;
-            _orderWriteRepository = orderWriteRepository;
-            _customerWriteRepository = customerWriteRepository;
-            _orderReadRepository = orderReadRepository;
+
+            _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
-        public async Task Get()
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
         {
-            Order order = await _orderReadRepository.GetByIdAsync("9aa55d2d-ec9d-4cfa-9359-f334d319c99a");
-            order.Address = "İstanbul";
-            await _orderWriteRepository.SaveAsync();
-
-
+           var response = await _mediator.Send(getAllProductQueryRequest);
+            return Ok(response);
         }
+
+
+
 
     }
 }
