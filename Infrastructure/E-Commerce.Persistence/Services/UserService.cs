@@ -3,9 +3,11 @@ using E_Commerce.Application.DTOs.User;
 using E_Commerce.Application.Exceptions;
 using E_Commerce.Application.Features.Commands.AppUser.CreateUser;
 using E_Commerce.Application.Helpers;
+using E_Commerce.Application.RequestParameters;
 using E_Commerce.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,8 @@ namespace E_Commerce.Persistence.Services
             _userManager = userManager;
             _configuration = configuration;
         }
+
+   
 
         public async Task<CreateUserResponseDTO> CreateAsync(CreateUserDTO createUserDTO)
         {
@@ -80,5 +84,31 @@ namespace E_Commerce.Persistence.Services
             }
 
         }
+        public async Task<List<ListUserDTO>> GetAllUsersAsync(Pagination pagination)
+        {
+            var users = await _userManager.Users.Skip(pagination.Page * pagination.Size).Take(pagination.Size).ToListAsync();
+
+            return users.Select(user => new ListUserDTO()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                NameSurName = user.NameSurName,
+                TwoFactorEnabled = user.TwoFactorEnabled,
+                UserName = user.UserName,
+
+            }).ToList();
+        }
+
+        public async Task<int> GetAllUserCount()
+        {
+            var result = await Task.Run(() =>
+            {
+                return _userManager.Users.Count();
+            });
+         
+            return result;
+
+        }
+
     }
 }

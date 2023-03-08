@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Application.DTOs.User;
+using E_Commerce.Application.RequestParameters;
 using E_Commerce.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace E_Commerce.Application.Abstractions.Services
         Task<CreateUserResponseDTO> CreateAsync(CreateUserDTO createUserDTO);
         Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate);
         Task UpdatePasswordAsync(string userId, string resetToken, string newPassword);
+        Task<List<ListUserDTO>> GetAllUsersAsync(Pagination pagination);
+        Task<int> GetAllUserCount();
     }
 }

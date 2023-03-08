@@ -1,7 +1,11 @@
-﻿using E_Commerce.Application.Features.Commands.AppUser.CreateUser;
+﻿using E_Commerce.Application.CustomAttributes;
+using E_Commerce.Application.Enıums;
+using E_Commerce.Application.Features.Commands.AppUser.CreateUser;
 using E_Commerce.Application.Features.Commands.AppUser.LoginUser;
 using E_Commerce.Application.Features.Commands.AppUser.UpdatePassword;
+using E_Commerce.Application.Features.Queries.AppUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,5 +36,20 @@ namespace E_Commerce.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefination(ActionType = ActionType.Reading, Definition = "Get All Users", Menu = "Users")]
+        public async Task<IActionResult> GetAllUsers([FromQuery]GetAllUserQueryRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AssignRoleToUser()
+        {
+            //TODO: Servisi yazılacak.
+            return Ok();
+        }
     }
 }
