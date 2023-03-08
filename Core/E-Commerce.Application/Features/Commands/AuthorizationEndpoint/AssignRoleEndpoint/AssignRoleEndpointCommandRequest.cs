@@ -2,7 +2,7 @@
 
 namespace E_Commerce.Application.Features.Commands.AuthorizationEndpoint.AssignRoleEndpoint
 {
-    public class AssignRoleEndpointCommandRequest: IRequest<AssignRoleEndpointCommandResponse>
+    public class AssignRoleEndpointQueryRequest: IRequest<AssignRoleEndpointQueryResponse>
     {
         public string[] Roles { get; set; }
         public string Code { get; set; }

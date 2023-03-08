@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Application.Features.Commands.AuthorizationEndpoint.AssignRoleEndpoint;
+using E_Commerce.Application.Features.Queries.AssignRoleEndpoint.GetRolesToEndpoint;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,19 @@ namespace E_Commerce.API.Controllers
             _mediator = mediator;
         }
 
+
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetRolesToEndpoint([FromRoute]GetRolesToEndpointQueryRequest request)
+        {
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AssignRoleEndpoint(AssignRoleEndpointCommandRequest assignRoleEndpointCommandRequest)
+        public async Task<IActionResult> AssignRoleEndpoint(AssignRoleEndpointQueryRequest assignRoleEndpointCommandRequest)
         {
             assignRoleEndpointCommandRequest.Type = typeof(Program);
-            AssignRoleEndpointCommandResponse response =
+            AssignRoleEndpointQueryResponse response =
             await _mediator.Send(assignRoleEndpointCommandRequest);
             return Ok(response);
         }

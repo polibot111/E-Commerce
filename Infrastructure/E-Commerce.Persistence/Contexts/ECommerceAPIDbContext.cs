@@ -33,10 +33,14 @@ namespace E_Commerce.Persistence.Contexts
 
             foreach (var data in datas)
             {
-                _ = data.State switch
+                switch (data.State)
                 {
-                    EntityState.Added => data.Entity.CreatedAt = DateTime.UtcNow,
-                    EntityState.Modified => data.Entity.UpdatedAt = DateTime.UtcNow
+                    case EntityState.Added:
+                        data.Entity.CreatedAt = DateTime.UtcNow;
+                        break;
+                    case EntityState.Modified:
+                        data.Entity.UpdatedAt = DateTime.UtcNow;
+                        break;
                 };
             }
 
