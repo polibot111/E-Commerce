@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Application.Features.Queries.AppUser
+namespace E_Commerce.Application.Features.Queries.AppUser.GetAllUsers
 {
     public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQueryRequest, GetAllUserQueryResponse>
     {
@@ -21,7 +21,7 @@ namespace E_Commerce.Application.Features.Queries.AppUser
         public async Task<GetAllUserQueryResponse> Handle(GetAllUserQueryRequest request, CancellationToken cancellationToken)
         {
             var totalUserCount = await _userService.GetAllUserCount();
-            var users = await _userService.GetAllUsersAsync(new() { Page = request.Page, Size = request.Size});
+            var users = await _userService.GetAllUsersAsync(new() { Page = request.Page, Size = request.Size });
 
             return new()
             {

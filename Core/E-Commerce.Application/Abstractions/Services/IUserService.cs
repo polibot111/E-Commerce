@@ -16,5 +16,8 @@ namespace E_Commerce.Application.Abstractions.Services
         Task UpdatePasswordAsync(string userId, string resetToken, string newPassword);
         Task<List<ListUserDTO>> GetAllUsersAsync(Pagination pagination);
         Task<int> GetAllUserCount();
+        Task AssiginRoleToUserAsync(string userId, IEnumerable<string> roles);
+        Task<string[]> GetRolesToUserAsync(string userIdOrName);
+        Task<bool> HasRolePermissionToEndpointAsync(string name, string code);
     }
 }

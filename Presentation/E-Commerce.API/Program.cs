@@ -1,5 +1,6 @@
 using E_Commerce.API.Configurations.ColumnWriter;
 using E_Commerce.API.Extensions;
+using E_Commerce.API.Filters;
 using E_Commerce.Application;
 using E_Commerce.Application.Validators.Example;
 using E_Commerce.Infrastructure;
@@ -29,9 +30,12 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(
     policy => policy.WithOrigins().AllowAnyHeader().AllowAnyMethod()
     ));
 
-builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
-    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<ExampleValidator>())
-    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+
+builder.Services.AddControllers(options =>
+{
+    //options.Filters.Add<RolePermissionFilter>();
+}).ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 
 Logger log = new LoggerConfiguration()
     .WriteTo.Console()

@@ -54,7 +54,7 @@ namespace E_Commerce.Persistence.Services
 
             Endpoint? endpoint = await _endpoindReadRepository.Table.Include(e => e.Menu).Include(e => e.Roles).FirstOrDefaultAsync(e => e.Code == code && e.Menu.Name == menu);
 
-            if (endpoint == null)
+            if (endpoint != null)
             {
                 var action = _applicationService.GetAuthorizeDefinationsEndpoints(type)
                      .FirstOrDefault(m => m.Name == menu)
@@ -86,7 +86,7 @@ namespace E_Commerce.Persistence.Services
             }
 
             await _endpoinWriteRepository.SaveAsync();
-
+            //TODO bu servis incelenecek düzgün çalışmıyor.
         }
 
         public async Task<GetRolesToEndpointQueryResponse> GetRolesToEndpoint(GetRolesToEndpointQueryRequest request)

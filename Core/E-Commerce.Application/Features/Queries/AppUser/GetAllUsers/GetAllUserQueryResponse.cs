@@ -1,6 +1,6 @@
 ﻿using E_Commerce.Application.DTOs.User;
 
-namespace E_Commerce.Application.Features.Queries.AppUser
+namespace E_Commerce.Application.Features.Queries.AppUser.GetAllUsers
 {
     public class GetAllUserQueryResponse
     {
