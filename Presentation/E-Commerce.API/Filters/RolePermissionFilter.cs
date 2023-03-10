@@ -20,7 +20,7 @@ namespace E_Commerce.API.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var name = context.HttpContext.User.Identity?.Name;
-            if (!string.IsNullOrEmpty(name)) 
+            if (!string.IsNullOrEmpty(name)  ) 
             {
                 var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
@@ -29,7 +29,7 @@ namespace E_Commerce.API.Filters
                 var httpAttribute = descriptor.MethodInfo.GetCustomAttribute(typeof(HttpMethodAttribute)) as HttpMethodAttribute;
 
                 var code = $"{(httpAttribute != null ? httpAttribute.HttpMethods.First() : HttpMethods.Get)}" +
-                    $".{attribute.ActionType}." +
+                    $".{attribute.ActionType}" +
                     $".{attribute.Definition.Replace(" ", "")}";
 
                 var hasRole = await _userService.HasRolePermissionToEndpointAsync(name, code);

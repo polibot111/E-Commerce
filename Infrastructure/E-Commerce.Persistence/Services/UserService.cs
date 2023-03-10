@@ -5,6 +5,7 @@ using E_Commerce.Application.Features.Commands.AppUser.CreateUser;
 using E_Commerce.Application.Helpers;
 using E_Commerce.Application.Repositories.ElementsRepositories;
 using E_Commerce.Application.RequestParameters;
+using E_Commerce.Domain.Entities;
 using E_Commerce.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -157,10 +158,13 @@ namespace E_Commerce.Persistence.Services
             if (!userRoles.Any())
                 return false;
 
-            var endpoint = _endpointReadRepository.Table.Include(e => e.Roles).FirstOrDefault(e => e.Code == code);
+            Endpoint? endpoint = await _endpointReadRepository.Table
+                     .Include(e => e.Roles)
+                     .FirstOrDefaultAsync(e => e.Code == code);
 
             if (endpoint == null)
                 return false;
+
 
             var endpointRoles = endpoint.Roles.Select(r => r.Name);
 

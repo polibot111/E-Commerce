@@ -34,7 +34,7 @@ builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsi
 
 builder.Services.AddControllers(options =>
 {
-    //options.Filters.Add<RolePermissionFilter>();
+    options.Filters.Add<RolePermissionFilter>();
 }).ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 
 Logger log = new LoggerConfiguration()
@@ -75,7 +75,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer("Admin", options =>
+    .AddJwtBearer("SuperAdmin", options =>
     {
         options.TokenValidationParameters = new()
         {

@@ -15,7 +15,7 @@ namespace E_Commerce.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes ="Admin")]
+    [Authorize(AuthenticationSchemes = "SuperAdmin")]
     public class RoleController : ControllerBase
     {
         readonly IMediator _mediator;
